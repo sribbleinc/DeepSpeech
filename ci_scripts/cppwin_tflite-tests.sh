@@ -11,6 +11,7 @@ set_ldc_sample_filename "${bitrate}"
 
 model_source=${DEEPSPEECH_TEST_MODEL//.pb/.tflite}
 model_name=$(basename "${model_source}")
+model_name_mmap=$(basename "${model_source}")
 export DATA_TMP_DIR=${CI_TMP_DIR}
 
 download_material "${CI_TMP_DIR}/ds"
@@ -19,4 +20,4 @@ export PATH=${CI_TMP_DIR}/ds/:$PATH
 
 check_versions
 
-run_tflite_basic_inference_tests
+run_basic_inference_tests

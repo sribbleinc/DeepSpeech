@@ -51,7 +51,7 @@ elif [ "${OS}" = "Darwin" ]; then
 fi;
 mkdir -p ${DS_ROOT_TASK}/bin || true
 pushd ${DS_ROOT_TASK}/bin
-    if [ "${OS}" = "${TC_MSYS_VERSION}" ]; then
+    if [ "${OS}" = "${CI_MSYS_VERSION}" ]; then
         cp ${DS_ROOT_TASK}/dls/${BAZEL_INSTALL_FILENAME} ${DS_ROOT_TASK}/bin/bazel.exe
     else
         /bin/bash ${DS_ROOT_TASK}/dls/${BAZEL_INSTALL_FILENAME} ${BAZEL_INSTALL_FLAGS}
@@ -104,9 +104,9 @@ if [ ! -z "${install_android}" ]; then
     popd
 fi
 
-mkdir -p ${TASKCLUSTER_ARTIFACTS} || true
+mkdir -p ${CI_ARTIFACTS_DIR} || true
 
 
 # Taken from https://www.tensorflow.org/install/source
 # Only future is needed for our builds, as we don't build the Python package
-pip install -U --user future==0.17.1 || true
+python -m pip install -U --user future==0.17.1 || true

@@ -6,7 +6,7 @@ package_native_client()
 {
   tensorflow_dir=${DS_TFDIR}
   deepspeech_dir=${DS_DSDIR}
-  artifacts_dir=${TASKCLUSTER_ARTIFACTS}
+  artifacts_dir=${CI_ARTIFACTS_DIR}
   artifact_name=$1
 
   if [ ! -d ${tensorflow_dir} -o ! -d ${deepspeech_dir} -o ! -d ${artifacts_dir} ]; then
@@ -26,7 +26,7 @@ package_native_client()
     win_lib="-C ${tensorflow_dir}/bazel-bin/native_client/ libdeepspeech.so.if.lib"
   fi;
 
-  ${TAR} -cf - \
+  ${TAR} --verbose -cf - \
     -C ${tensorflow_dir}/bazel-bin/native_client/ libdeepspeech.so \
     ${win_lib} \
     -C ${tensorflow_dir}/bazel-bin/native_client/ generate_scorer_package \
@@ -41,7 +41,7 @@ package_native_client_ndk()
 {
   deepspeech_dir=${DS_DSDIR}
   tensorflow_dir=${DS_TFDIR}
-  artifacts_dir=${TASKCLUSTER_ARTIFACTS}
+  artifacts_dir=${CI_ARTIFACTS_DIR}
   artifact_name=$1
   arch_abi=$2
 
@@ -60,7 +60,7 @@ package_native_client_ndk()
     echo "Please specify arch abi."
   fi;
 
-  ${TAR} -cf - \
+  ${TAR} --verbose -cf - \
     -C ${deepspeech_dir}/native_client/libs/${arch_abi}/ deepspeech \
     -C ${deepspeech_dir}/native_client/libs/${arch_abi}/ libdeepspeech.so \
     -C ${tensorflow_dir}/bazel-bin/native_client/ generate_scorer_package \
@@ -74,7 +74,7 @@ package_native_client_ndk()
 package_libdeepspeech_as_zip()
 {
   tensorflow_dir=${DS_TFDIR}
-  artifacts_dir=${TASKCLUSTER_ARTIFACTS}
+  artifacts_dir=${CI_ARTIFACTS_DIR}
   artifact_name=$1
 
   if [ ! -d ${tensorflow_dir} -o ! -d ${artifacts_dir} ]; then
